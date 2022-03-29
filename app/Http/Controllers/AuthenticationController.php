@@ -27,6 +27,8 @@ class AuthenticationController extends Controller
             'email'=>$attributes['email'],
             'phone'=>$attributes['phone']
         ]);
+        $user->attachRole('user');
+        // create token user token 
         $token = $user->createToken('myToken')->plainTextToken;
         $response =[
             'user' =>$user,
@@ -52,7 +54,7 @@ class AuthenticationController extends Controller
             'token'=>auth()->user()->createToken('autherToken')->plainTextToken
         ];
         return redirect()->route('/posts');
-        // return response( $response,201);
+       
     }
     // logout and destroy token
     public function signout(){
