@@ -15,7 +15,7 @@ use App\Http\Controllers\PostController;
 */
 
 // routes to register
-Route::get('/register',[AuthenticationController::class,'create']);
+Route::get('/',[AuthenticationController::class,'create']);
 Route::post('/register',[AuthenticationController::class,'createAccount']);
 
 // route to login
@@ -23,15 +23,18 @@ Route::get('/login',[AuthenticationController::class,'createSigninView']);
 Route::post('/login',[AuthenticationController::class,'signin']);
 // sanctum middleware to issue token
 Route::group(['middleware' => ['auth:sanctum']], function () {
-
+    
     // route to logout
     Route::post('/logout',[AuthenticationController::class,'signout']);
+    // Route::resource('posts', PostController::class);
 });
+// Route::view('/create', 'posts.create');
+Route::get('/create',[PostController::class,'create'])->name('create');
+Route::post('/create',[PostController::class,'store']);
+// Route::get('/', function () {
+//     return view('register');
+// });
 
-Route::get('/', function () {
-    return view('register');
-});
-Route::post('/login', function () {
-    return view('login');
-});
+Route::get('/posts', [PostController::class, 'index'])->name('posts');
 
+// Route::get('/create/post', [PostController::class, 'create']);

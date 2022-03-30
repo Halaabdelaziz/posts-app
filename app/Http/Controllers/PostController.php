@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Http\Controllers\Auth;
 class PostController extends Controller
 {
     /**
@@ -13,7 +14,21 @@ class PostController extends Controller
      */
     public function index()
     {
-        //
+        // // get user data 
+        // if (Auth::check()) {
+        //     $id = Auth::user()->id;
+            // $posts = Post::where('user_id',$id)->get();
+            $posts=Post::all();
+            return $posts;
+        //     dd($posts);
+        // }
+        // if(Auth::user()){
+           
+            
+        // }else{
+        //     return "not authorized";
+        // }
+        return view('posts.index',['posts'=>$posts]);
     }
 
     /**
@@ -24,6 +39,7 @@ class PostController extends Controller
     public function create()
     {
         //
+        return view("posts.create");
     }
 
     /**
@@ -35,6 +51,14 @@ class PostController extends Controller
     public function store(Request $request)
     {
         //
+        $post= new Post();
+        $post->title = $request->title;
+        $post->body=$request->body;
+        // $post->user_id=Auth::id();
+        $post->save();
+    
+        return redirect()->route("/posts");
+        // return true;
     }
 
     /**
@@ -57,6 +81,9 @@ class PostController extends Controller
     public function edit($id)
     {
         //
+        $post = Post::find($id);
+        return view("posts.edit",$post);
+
     }
 
     /**
@@ -69,6 +96,12 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
+        $data = Post::find($id);
+        $data->title=$request->title;
+        $data->body=$request->body;
+        $data->updated_at=$request->updated_at;
+        $data->save();
+        return redirect()->route('posts.index');
     }
 
     /**
@@ -80,5 +113,7 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+        Post::destroy($id);
+        return redirect()->route('posts.index');
     }
 }
