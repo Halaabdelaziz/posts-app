@@ -4,9 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-
-use Illuminate\Support\Facades\Auth;
-class PostController extends Controller
+use App\Http\Resources\PostResource;
+class DashboardController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,13 +14,10 @@ class PostController extends Controller
      */
     public function index()
     {
-        // get user data 
-        if (Auth::check()) {
-            $id = Auth::user()->id;
-            $posts = Post::where('user_id',$id)->get();
-            
-            return view('posts.index',compact('posts'));
-        }
+        
+        $posts=PostResource::collection(Post::all());
+        
+        return view('dashboard.index',compact('posts'));
     }
 
     /**
@@ -32,7 +28,6 @@ class PostController extends Controller
     public function create()
     {
         //
-        return view("posts.create");
     }
 
     /**
@@ -43,14 +38,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $id = Auth::id();
-        $post= new Post();
-        $post->title = $request->title;
-        $post->body=$request->body;
-        $post->user_id=$id;
-        $post->save();
-    
-        return redirect()->route("posts");
+        //
     }
 
     /**
@@ -73,9 +61,6 @@ class PostController extends Controller
     public function edit($id)
     {
         //
-        $post = Post::find($id);
-        return view("posts.edit",$post);
-
     }
 
     /**
@@ -88,12 +73,6 @@ class PostController extends Controller
     public function update(Request $request, $id)
     {
         //
-        $data = Post::find($id);
-        $data->title=$request->title;
-        $data->body=$request->body;
-        $data->updated_at=$request->updated_at;
-        $data->save();
-        return redirect()->route('posts.index');
     }
 
     /**
@@ -105,10 +84,5 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
-        Post::destroy($id);
-        return redirect()->route('posts');
     }
-    public function getDashboard(){
-      
-    }
-}   
+}
