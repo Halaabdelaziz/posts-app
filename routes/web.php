@@ -15,7 +15,7 @@ use App\Http\Controllers\DashboardController;
 |
 */
 // dashboard route
-Route::get('/dashboard',[DashboardController::Class,'index']);
+Route::get('/dashboard',[PostController::Class,'index'])->name('dashboard');
 // routes to register
 Route::get('/',[AuthenticationController::class,'create']);
 Route::post('/register',[AuthenticationController::class,'createAccount']);
@@ -23,14 +23,17 @@ Route::post('/register',[AuthenticationController::class,'createAccount']);
 // route to login
 Route::get('/login',[AuthenticationController::class,'createSigninView']);  
 Route::post('/signin',[AuthenticationController::class,'signin']);
-
-Route::post('/logout',[AuthenticationController::class,'signout']);
-
-// Route::view('/create', 'posts.create');
-Route::get('/create',[PostController::class,'create'])->name('create')->middleware('auth');
-Route::post('/create',[PostController::class,'store'])->middleware('auth');
-
-
+Route::get('/logout',[AuthenticationController::class,'signout'])->name('logout');
+// create post
+Route::get('/create',[PostController::class,'create'])->name('create');
+Route::post('/create',[PostController::class,'store']);
+// route to get all posts of login user
 Route::get('/posts', [PostController::class, 'index'])->name('posts');
-Route::delete('/posts', [PostController::class, 'destroy']);
+// route to load view of post
+Route::get('/posts/{id}/edit',[PostController::class, 'edit']);
+Route::PATCH('/posts/{id}',[PostController::class, 'update']);
+// route to show post by id
+Route::get('/posts/{id}',[PostController::class, 'show']);
+// route to delete post by id
+Route::delete('/posts/{id}', [PostController::class, 'destroy']);
 // Route::get('/create/post', [PostController::class, 'create']);

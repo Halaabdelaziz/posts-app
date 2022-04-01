@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
-
+use App\Models\User;
+use App\Http\Resources\PostResource;
 use Illuminate\Support\Facades\Auth;
+
 class PostController extends Controller
 {
     /**
@@ -15,13 +17,30 @@ class PostController extends Controller
      */
     public function index()
     {
-        // get user data 
-        if (Auth::check()) {
+
+
+        // get user data
+      if (Auth::check()) {
+        if(auth()->user()->hasRole('admin'))
+        {
+
+            $posts=PostResource::collection(Post::all());
+
+            return view('dashboard.index', ['posts'=>$posts]);
+            // return view('dashboard.index',compact('posts'));
+        }
+        else{
             $id = Auth::user()->id;
             $posts = Post::where('user_id',$id)->get();
             
             return view('posts.index',compact('posts'));
         }
+       
+        }
+        else{
+            echo "unauthorized";
+        }
+          
     }
 
     /**
@@ -62,6 +81,9 @@ class PostController extends Controller
     public function show($id)
     {
         //
+  
+        $post=Post::find($id);
+        return view('posts.show',compact('post'));
     }
 
     /**
@@ -93,7 +115,7 @@ class PostController extends Controller
         $data->body=$request->body;
         $data->updated_at=$request->updated_at;
         $data->save();
-        return redirect()->route('posts.index');
+        return redirect()->route('posts');
     }
 
     /**

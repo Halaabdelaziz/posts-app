@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\addPostRequest;
 use App\Http\Requests\addLoginRequest;
-
+use App\Http\Resources\PostResource;
+use App\Models\Post;
 class AuthenticationController extends Controller
 {
     public function create(){
@@ -25,28 +26,26 @@ class AuthenticationController extends Controller
         ]);
         $user->attachRole('user');
         auth()->login($user);
-        // create token user token 
-        $token = $user->createToken('myToken')->plainTextToken;
-        
-        $response =[
-            'user' =>$user,
-            'token'=>$token
-        ];
-
         return redirect()->route('create');
     }
+
+
 
     // sign in 
     public function createSigninView(){
         return view('login');
     }
+
+
+
     public function signin(addLoginRequest $request){  
-        
+
         $user = User::where('email','=',$request->email)->first();
         if($user){
             if(Hash::check($request->password,$user->password)){
               
                 $request->session()->put('user_id',$user->id);
+                auth()->login($user);
                 return redirect()->route('posts');
             }else{
                 return back()->with('fail','password doen not match');
@@ -59,13 +58,12 @@ class AuthenticationController extends Controller
     }
 
     // logout and destroy token
-    public function signout(){
-       
+    public function signout(Request $request){
         Auth::logout();
  
-        $request->session()->invalidate();
+        // $request->session()->invalidate();
      
-        $request->session()->regenerateToken();
+        // $request->session()->regenerateToken();
         
         return redirect('/');
     }
