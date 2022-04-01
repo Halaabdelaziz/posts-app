@@ -23,7 +23,7 @@ class PostController extends Controller
       if (Auth::check()) {
         if(auth()->user()->hasRole('admin'))
         {
-
+            echo "admin";
             $posts=PostResource::collection(Post::all());
 
             return view('dashboard.index', ['posts'=>$posts]);
