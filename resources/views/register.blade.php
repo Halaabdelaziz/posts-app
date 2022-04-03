@@ -20,19 +20,15 @@
                                                         <label for="inputFirstName">Name</label>
                                                         <span class="text-danger">@error('name') {{$message}} @enderror</span>
                                                     </div>
-                                                    
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="form-floating mb-3 mb-md-0">
                                                         <input class="form-control" name="phone" id="inputPhone" type="text" placeholder="Enter your phone" />
                                                         <label for="inputPhone">Phone</label>
                                                         <span class="text-danger">@error('phone') {{$message}} @enderror</span>
-
                                                     </div>
-                                                    
                                                 </div>
                                             </div>
-                                            
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" name="email" id="inputEmail" type="email" placeholder="name@example.com" />
                                                 <label for="inputEmail">Email address</label>

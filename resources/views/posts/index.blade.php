@@ -43,7 +43,7 @@
 </table>
 
 
-<a type="submit" class="btn btn-primary" href="/logout">Log Out</a>
+<a type="submit" class="btn btn-primary" href="/login">Log Out</a>
 </div>
 
 

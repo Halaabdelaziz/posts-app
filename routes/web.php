@@ -32,7 +32,7 @@ Route::get('/create',[PostController::class,'create'])->name('create');
 Route::post('/create',[PostController::class,'store']);
 
 // route to get all posts of login user
-Route::get('/posts', [PostController::class, 'index'])->name('posts');
+Route::get('/posts', [PostController::class, 'index'])->name('posts')->middleware('auth');
 
 // route to load view of post
 Route::get('/posts/{id}/edit',[PostController::class, 'edit']);
