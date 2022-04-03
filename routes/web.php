@@ -14,8 +14,10 @@ use App\Http\Controllers\DashboardController;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
 // dashboard route
-Route::get('/dashboard',[PostController::Class,'index'])->name('dashboard');
+Route::get('/dashboard',[PostController::Class,'getDashboard'])->name('dashboard')->middleware(['role:admin']);
 // routes to register
 Route::get('/',[AuthenticationController::class,'create']);
 Route::post('/register',[AuthenticationController::class,'createAccount']);
@@ -24,16 +26,20 @@ Route::post('/register',[AuthenticationController::class,'createAccount']);
 Route::get('/login',[AuthenticationController::class,'createSigninView']);  
 Route::post('/signin',[AuthenticationController::class,'signin']);
 Route::get('/logout',[AuthenticationController::class,'signout'])->name('logout');
+
 // create post
 Route::get('/create',[PostController::class,'create'])->name('create');
 Route::post('/create',[PostController::class,'store']);
+
 // route to get all posts of login user
 Route::get('/posts', [PostController::class, 'index'])->name('posts');
+
 // route to load view of post
 Route::get('/posts/{id}/edit',[PostController::class, 'edit']);
 Route::PATCH('/posts/{id}',[PostController::class, 'update']);
+
 // route to show post by id
 Route::get('/posts/{id}',[PostController::class, 'show']);
+
 // route to delete post by id
 Route::delete('/posts/{id}', [PostController::class, 'destroy']);
-// Route::get('/create/post', [PostController::class, 'create']);

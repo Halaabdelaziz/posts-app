@@ -15,10 +15,12 @@
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" name="email" id="inputEmail" type="email" placeholder="name@example.com" />
                                                 <label for="inputEmail">Email address</label>
+                                                <span class="text-danger">@error('email') {{$message}} @enderror</span>
                                             </div>
                                             <div class="form-floating mb-3">
                                                 <input class="form-control" name="password" id="inputPassword" type="text" placeholder="Password" />
                                                 <label for="inputPassword">Password</label>
+                                                <span class="text-danger">@error('password') {{$message}} @enderror</span>
                                             </div>
                                             <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                 

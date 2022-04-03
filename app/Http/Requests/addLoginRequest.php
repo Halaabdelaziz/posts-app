@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Requests;
-
 use Illuminate\Foundation\Http\FormRequest;
 
 class addLoginRequest extends FormRequest
@@ -15,7 +14,6 @@ class addLoginRequest extends FormRequest
     {
         return true;
     }
-
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,16 +25,13 @@ class addLoginRequest extends FormRequest
         
             'email'=>'required',
             'password'=>'required',
-           
         ];
     }
     public function messages()
     {
         return [
-          
             'email.required'=>'email is required',
             'password.required'=>'password is required',
-           
         ];
     }
 }

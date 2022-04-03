@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
+    public function __construct(){
+       
+    }
+    // load view of dashboard
+    public function getDashboard(){
+        $posts=PostResource::collection(Post::all());
+        return view('dashboard.index', ['posts'=>$posts]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -17,30 +25,23 @@ class PostController extends Controller
      */
     public function index()
     {
-
-
-        // get user data
-      if (Auth::check()) {
-        if(auth()->user()->hasRole('admin'))
-        {
-            echo "admin";
-            $posts=PostResource::collection(Post::all());
-
-            return view('dashboard.index', ['posts'=>$posts]);
-            // return view('dashboard.index',compact('posts'));
-        }
-        else{
-            $id = Auth::user()->id;
-            $posts = Post::where('user_id',$id)->get();
-            
-            return view('posts.index',compact('posts'));
-        }
-       
-        }
+        // check if user login
+        if (Auth::check()) {
+            // check if user is admin
+            if(auth()->user()->hasRole('admin'))
+            {
+                return redirect()->route('dashboard');
+            }
+            else{
+                $id = Auth::user()->id;
+                $posts = Post::where('user_id',$id)->get();
+                
+                return view('posts.index',compact('posts'));
+                }
+            }
         else{
             echo "unauthorized";
         }
-          
     }
 
     /**
@@ -50,7 +51,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        //
+        //load view to create post
         return view("posts.create");
     }
 
@@ -62,6 +63,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        // save post in db
         $id = Auth::id();
         $post= new Post();
         $post->title = $request->title;
@@ -80,8 +82,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
-  
+        // show post details by id 
         $post=Post::find($id);
         return view('posts.show',compact('post'));
     }
@@ -94,12 +95,10 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        // load view to edit post
         $post = Post::find($id);
         return view("posts.edit",$post);
-
     }
-
     /**
      * Update the specified resource in storage.
      *
@@ -109,7 +108,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        //update post
         $data = Post::find($id);
         $data->title=$request->title;
         $data->body=$request->body;
@@ -117,7 +116,6 @@ class PostController extends Controller
         $data->save();
         return redirect()->route('posts');
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -126,11 +124,8 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        //delete post
         Post::destroy($id);
         return redirect()->route('posts');
-    }
-    public function getDashboard(){
-      
     }
 }   

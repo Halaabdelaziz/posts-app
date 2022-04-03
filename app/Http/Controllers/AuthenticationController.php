@@ -36,35 +36,27 @@ class AuthenticationController extends Controller
         return view('login');
     }
 
-
-
     public function signin(addLoginRequest $request){  
 
         $user = User::where('email','=',$request->email)->first();
         if($user){
+            
             if(Hash::check($request->password,$user->password)){
-              
                 $request->session()->put('user_id',$user->id);
                 auth()->login($user);
                 return redirect()->route('posts');
             }else{
                 return back()->with('fail','password doen not match');
             }
-        }else{
-            return back()->with('fail','this email is not registered');
         }
-  
-        return redirect("/login")->withSuccess('Login details are not valid');
+        else{
+            return back()->with('fail','Login details are not valid');
+        }
     }
 
     // logout and destroy token
     public function signout(Request $request){
         Auth::logout();
- 
-        // $request->session()->invalidate();
-     
-        // $request->session()->regenerateToken();
-        
         return redirect('/');
     }
 
