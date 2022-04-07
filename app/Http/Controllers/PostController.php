@@ -10,9 +10,6 @@ use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
-    public function __construct(){
-       
-    }
     // load view of dashboard
     public function getDashboard(){
         $posts=PostResource::collection(Post::all());

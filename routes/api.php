@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\API\AllPostController;
 use App\Http\Controllers\API\RegisterController;
 /*
 |--------------------------------------------------------------------------
@@ -25,10 +26,11 @@ Route::post('/register',[RegisterController::class, 'createAccount']);
 //login user route
 Route::post('/login',[RegisterController::class,'signin']);
 
+
 //using middleware 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     
     Route::post('/logout', [RegisterController::class, 'signout']);
-    // get user info by id
-    Route::get('/posts',[PostController::class,'index']);
+    // get user Posts by id
+    Route::get('/posts',[AllPostController::class,'getUserPost']);
 });

@@ -29,8 +29,6 @@ class AuthenticationController extends Controller
         return redirect()->route('create');
     }
 
-
-
     // sign in 
     public function createSigninView(){
         return view('login');

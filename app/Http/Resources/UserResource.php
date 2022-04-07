@@ -18,7 +18,6 @@ class UserResource extends JsonResource
             'user name'=>$request->name,
             'user email'=>$request->email,
             'user phone'=>$request->phone,
-           
         ];
     }
 }

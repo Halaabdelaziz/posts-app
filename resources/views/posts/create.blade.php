@@ -9,7 +9,7 @@
   </div>
   <div class="mb-3">
     <label for="exampleInputText" class="form-label">Post body</label>
-    <input type="text" name="body" class="form-control" id="exampleInputText">
+    <textarea type="text" name="body" class="form-control" id="exampleInputText"></textarea>
   </div>
 
   <button type="submit" class="btn btn-primary">Submit</button>
